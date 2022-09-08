@@ -1,0 +1,98 @@
+<%-include partials/header-%>
+    <h2 class="text-center underline decoration-2  my-7 text-xl">Users Dashboard</h2>
+    <div class="flex  container m-auto  justify-between  w-5/6">
+        <div>
+            <%if(salaries){%>
+                <div class="box">
+                    <h1 class="font-bold text-xl mb-3">Salary :-</h1>
+                    <% salaries.forEach(salary=>{%>
+                        <p class="my-2">
+                            <%=salary.amount%> is earned via
+                                <%salary.source.forEach((source)=>{%>
+                                    <%=source%>
+                                        <%})%>
+                        </p>
+                        <%})%>
+                </div>
+                <%} %>
+
+                    <%if(expenses){%>
+                        <div class="box">
+                            <h1 class="font-bold text-xl mb-3">Expenses :-</h1>
+                            <% expenses.forEach(expense=>{%>
+                                <p class="my-2">
+                                    <%=expense.amount%> is earned via
+                                        <%expense.category.forEach((category)=>{%>
+                                            <%=category%>
+                                                <%})%>
+                                </p>
+                                <%})%>
+                        </div>
+                        <%} %>
+
+        </div>
+
+        <aside>
+            <form action=" /users/dashboard" method="get" style="background-color: #5AB14F;" class="rounded-xl my-12 p-4">
+                <p class="font-bold text-white text-l text-center">Search according to year and month</p>
+                <div>
+                    <label for="month">
+            Fill up a month:-
+          </label>
+                    <input id="month" class=" rounded px-5 py-1 my-4" name="monthName" type="text" placeholder="add month">
+                </div>
+                <div>
+                    <label for="year">
+            Fill up a year:-
+          </label>
+                    <input id="year" class=" rounded px-5 py-1 my-4" name="year" type="number" placeholder="add year">
+                </div>
+
+                <input type="submit" class="block cursor-pointer py-0.5 px-8 bg-black rounded-2xl text-white hover:text-gray-400 border-b-3 mt-3 rounded-md" value="search">
+            </form>
+            <form action="/users/dashboard" method="get" style="background-color: #5AB14F;" class=" rounded-xl my-12 p-4">
+                <legend class="font-bold text-white text-l text-center">Search Based on filters</legend>
+                <div class="my-4">
+                    <label for="source">Select income source :-</label>
+                    <select id="source" class="px-3 py-1 rounded" name="source">
+            <option value="">
+              choose an income sources
+            </option>
+            <%sources.forEach((source)=>{%>
+              <option value="<%=source%>">
+                <%=source%>
+              </option>
+              <%})%>
+          </select>
+                </div>
+                <div class="my-4">
+                    <label for="category">Select category :-</label>
+                    <select id="category" class="px-3 py-1 rounded" name="category">
+            <option value="">
+              choose an category
+            </option>
+            <%allCategories.forEach((category)=>{%>
+              <option value="<%=category%>">
+                <%=category%>
+              </option>
+              <%})%>
+          </select>
+                </div>
+
+                <div class="my-4">
+                    <label for="start_date">
+            From :-
+          </label>
+                    <input id="start_date" class="px-2 py-0.5 rounded" name="start_date" type="date">
+                </div>
+                <div class="my-4">
+                    <label for="end_date">to :-</label>
+                    <input id="end_date" class="px-2 py-0.5 rounded" name="end_date" type="date">
+                </div>
+
+                <input type="submit" class="block cursor-pointer py-0.5 px-8 bg-black rounded-2xl text-white hover:text-gray-400 border-b-3 mt-3 rounded-md" value="Search">
+            </form>
+        </aside>
+
+    </div>
+    <%-include partials/footer-%>
