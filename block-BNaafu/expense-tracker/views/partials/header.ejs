@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <style>
+        li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <title>Expense Tracker</title>
+</head>
+
+<body style="background-color: #F1F3F5;">
+    <header class="flex justify-between container m-auto p-5 w-5/6 items-center">
+        <div>
+            <img class="w-14 object-cover inline-block" src=" /images/expense-logo.png" alt="Expense-tracker-logo">
+            <span class="ml-2">Expense Tracker</span>
+        </div>
+        <%if(user){%>
+            <nav>
+                <ul class="flex space-x-3">
+                    <p style="background-color: #5AB14F;" class=" px-2 py-0.3 rounded text-white">Logged In User:-
+                        <%=user.email%>
+                    </p>
+                    <li>
+                        <a href="/users/salary">Add salary</a>
+                    </li>
+                    <li>
+                        <a href="/users/dashboard">Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="/users/expenseForm">Add expenses</a>
+                    </li>
+                    <% if(user.password){%>
+                        <li>
+                            <a href="/users/password/edit">Reset Password</a>
+                        </li>
+                        <%}%>
+                            <li>
+                                <a href="/users/logout"> logout</a>
+                            </li>
+                </ul>
+            </nav>
+            <%} else {%>
+                <nav>
+                    <ul class="flex space-x-2">
+                        <li>
+                            <a href="/users/login">Login</a>
+                        </li>
+                        <li>
+                            <a href="/users/register">Register</a>
+                        </li>
+                    </ul>
+                </nav>
+                <% }%>
+    </header>
+    <hr>
+</body>
+
+</html>
