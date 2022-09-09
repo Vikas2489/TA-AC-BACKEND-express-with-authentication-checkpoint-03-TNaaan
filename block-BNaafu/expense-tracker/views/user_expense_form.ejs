@@ -1,0 +1,10 @@
+<%- include partials/header -%>
+
+    <form action="/users/expenseForm" method="post" style="background-color: #5AB14F;" class="flex w-1/3   rounded-xl my-12 flex-col items-center justify-center container m-auto p-4">
+        <p class="font-bold text-white text-l">User Expense Form -</p>
+        <input class="block w-full pr-5 pl-3 py-1 border-b-3 mt-3 rounded-md" type="text" placeholder="Add category" name="category">
+        <input class="block w-full pr-5 pl-3 py-1 border-b-3 mt-3 rounded-md" type="number" placeholder="Add amount" name="amount">
+        <input class="block w-full pr-5 pl-3 py-1 border-b-3 mt-3 rounded-md" type="date" placeholder="Add date" name="date">
+        <input class="block py-1 px-5 bg-black rounded-2xl mt-4 text-white hover:text-gray-400 border-b-3 mt-3 rounded-md" type="submit" value="Submit">
+    </form>
+    <%- include partials/footer -%>

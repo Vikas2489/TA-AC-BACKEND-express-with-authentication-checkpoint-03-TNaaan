@@ -1,0 +1,17 @@
+/* body {
+    padding: 50px;
+    font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: #00b7ff;
+} */
+
+.box {
+    width: 400px;
+    margin: 5em auto;
+    padding: 2em;
+    background-color: #fdfdff;
+    border-radius: 0.5em;
+    box-shadow: 2px 3px 7px 2px rgb(0 0 0 / 2%);
+}
