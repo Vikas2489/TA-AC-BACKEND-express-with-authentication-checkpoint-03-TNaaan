@@ -187,8 +187,12 @@ router.get("/dashboard", auth.fetchSources, auth.fetchCategories, (req, res, nex
     let date = new Date();
     let month = date.getMonth() + 1;
     let currentMonthExpense, currentMonthSalary;
-    let salaryQuery = {};
-    let expenseQuery = {};
+    let salaryQuery = {
+        userId,
+    };
+    let expenseQuery = {
+        userId,
+    };
 
     // showing current month salaries and expenses
     if (source || start_date || end_date || category) {
@@ -198,40 +202,39 @@ router.get("/dashboard", auth.fetchSources, auth.fetchCategories, (req, res, nex
         if (req.query.category) {
             expenseQuery.category = req.query.category;
         }
-        if (req.query.start_date) {
-            start_date = moment(req.query.start_date);
-            salaryQuery.start_date = start_date.toISOString();
-            expenseQuery.start_date = start_date.toISOString();
-        }
-        if (req.query.end_date) {
-            end_date = moment(req.query.end_date);
-            salaryQuery.end_date = end_date.toISOString();
-            expenseQuery.end_date = end_date.toISOString();
+        if (req.query.start_date && req.query.end_date) {
+            start_date = moment(req.query.start_date).toISOString();
+            end_date = moment(req.query.end_date).toISOString();
+
+            salaryQuery.date = { $gte: start_date, $lte: end_date };
+            expenseQuery.date = { $gte: start_date, $lte: end_date };
         }
         console.log(salaryQuery, "salaryQuery", expenseQuery, "expenseQuery");
         // finding salary and expense according to the search
-        Salary.find({ source: salaryQuery.source, date: { $gte: salaryQuery.start_date, $lte: salaryQuery.end_date } }, (err, salaries) => {
+        Salary.find(salaryQuery, (err, salaries) => {
             if (err) return next(err);
-            Expense.find({ category: expenseQuery.category, date: { $gte: expenseQuery.start_date, $lte: expenseQuery.end_date } }, (err, expenses) => {
+            Expense.find(expenseQuery, (err, expenses) => {
                 if (err) return next(err);
                 return res.render("userDashboard", { salaries, expenses });
             });
         })
-    } else if (monthName || year) {
+    } else if (monthName) {
         let monthsNameArr = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
-        let indexOfMonth = monthsNameArr.indexOf(monthName) + 1;
-        console.log(monthName, typeof year);
+        let splittedMonthandYear = monthName.split("-");
+        let year = splittedMonthandYear[0];
+        let month = splittedMonthandYear[1];
+
         Salary.find({ userId }, (err, salaries) => {
             if (err) return next(err);
             salaries = salaries.filter(salary => {
-                if (moment(salary.date).year() == year && moment(salary.date).month() + 1 == indexOfMonth) {
+                if (moment(salary.date).year() == year && moment(salary.date).month() + 1 == month) {
                     return salary;
                 }
             });
             Expense.find({ userId }, (err, expenses) => {
                 if (err) return next(err);
                 expenses = expenses.filter(expense => {
-                    if (moment(expense.date).year() == year && moment(expense.date).month() + 1 == indexOfMonth) {
+                    if (moment(expense.date).year() == year && moment(expense.date).month() + 1 == month) {
                         return expense;
                     }
                 });
